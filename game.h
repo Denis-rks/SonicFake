@@ -3,6 +3,7 @@
 
 #ifndef SONICFAKE_GAME_H
 #define SONICFAKE_GAME_H
+
 #include "window.h"
 
 typedef enum {
@@ -12,8 +13,9 @@ typedef enum {
 }gameState;
 
 typedef struct game{
-
+    int running;
+    SDL_Event event;
 }game;
 
-void gameLoop(sdlPointer* sdlPointer);
+void gameLoop(sdlPointer* sdlPointer, game* game);
 #endif //SONICFAKE_GAME_H

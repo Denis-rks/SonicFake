@@ -38,4 +38,6 @@ void gameFree(sdlPointer *sdlPointer) {
         sdlPointer->renderer = NULL;
     }
     SDL_Quit();
+
+    printf("Resources have been released\n");
 }

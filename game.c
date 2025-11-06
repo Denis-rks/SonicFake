@@ -6,20 +6,35 @@
 
 #include "window.h"
 
-void gameLoop(sdlPointer* sdlPointer) {
+void eventLoop(game* game);
+void draw(sdlPointer* sdlPointer);
 
-    int running = 1;
-    while (running) {
+void gameLoop(sdlPointer* sdlPointer, game* game) {
+    while (game->running) {
 
-        SDL_Event e;
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_EVENT_QUIT) {
-                running = 0;
+        eventLoop(game);
+
+        draw(sdlPointer);
+
+        SDL_Delay(16);
+    }
+}
+
+void eventLoop(game* game) {
+    while (SDL_PollEvent(&game->event)) {
+            switch (game->event.type) {
+                case SDL_EVENT_QUIT:
+                    game->running = 0;
+                    break;
+                default:
+                    printf("Unhandled event type: %d\n", game->event.type);
+                    break;
             }
         }
+}
 
-        SDL_SetRenderDrawColor(sdlPointer->renderer, 255, 0, 0, 255);
-        SDL_RenderClear(sdlPointer->renderer);
-        SDL_RenderPresent(sdlPointer->renderer);
-    }
+void draw(sdlPointer* sdlPointer) {
+    SDL_SetRenderDrawColor(sdlPointer->renderer, 255, 0, 0, 255);
+    SDL_RenderClear(sdlPointer->renderer);
+    SDL_RenderPresent(sdlPointer->renderer);
 }
