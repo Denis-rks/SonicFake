@@ -14,9 +14,9 @@ int main() {
         game.running = 1;
     }
 
+    game.box = (SDL_FRect) { 100, 100, 100, 100 };
+    //todo hier soll ca das level erstmal geladen werden fürs erste ein level statisch
     gameLoop(&sdlPointer, &game);
-
-    SDL_Delay(3000);
 
     gameFree(&sdlPointer);
     return exitStatus;

@@ -13,6 +13,7 @@ typedef enum {
 }gameState;
 
 typedef struct game{
+    SDL_FRect box;
     int running;
     SDL_Event event;
 }game;
