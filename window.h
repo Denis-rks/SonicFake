@@ -7,8 +7,9 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <stdlib.h>
 
-#define SLD_FLAGS SDL_INIT_VIDEO
+#define SDL_FLAGS SDL_INIT_VIDEO
 
 #define WINDOW_TITLE "Sonic Fake"
 

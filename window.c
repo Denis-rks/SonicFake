@@ -5,7 +5,7 @@
 #include "window.h"
 
 int gameInitSdl(sdlPointer *sdlPointer) {
-    if (!SDL_Init(SLD_FLAGS)) {
+    if (!SDL_Init(SDL_FLAGS)) {
         fprintf(stderr, "Failed to initialize SDL %s\n", SDL_GetError());
         return -1;
     }

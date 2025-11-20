@@ -1,23 +1,31 @@
-#include <_stdlib.h>
-
 #include "window.h"
 #include "game.h"
+#include "entities/player.h"
 
-int main() {
+
+int main(void) {
+
+
     int exitStatus = EXIT_FAILURE;
 
-    sdlPointer sdlPointer = {};
-    game game = {};
+    sdlPointer sdlPointer = {0};
+    game game = {0};
 
     if (gameInitSdl(&sdlPointer) == 0) {
         exitStatus = EXIT_SUCCESS;
         game.running = 1;
     }
 
-    game.box = (SDL_FRect) { 10, 500, 100, 100 };
-    //todo hier soll ca das level erstmal geladen werden fürs erste ein level statisch
+    if (!createPlayer(&game)) {
+        exitStatus = EXIT_FAILURE;
+        game.running = 0;
+        printf("Failed to create player!\n");
+    }
+
+    //todo hier soll ca das level erstmal geladen werden fürs erste ein level statisch vlt auch doch nicht hier
     gameLoop(&sdlPointer, &game);
 
+    freePlayer(&game);
     gameFree(&sdlPointer);
     return exitStatus;
 }

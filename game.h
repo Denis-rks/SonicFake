@@ -6,6 +6,8 @@
 
 #include "window.h"
 
+struct player;
+
 typedef enum {
     MAINMENU,
     GAMEMENU,
@@ -13,10 +15,10 @@ typedef enum {
 }gameState;
 
 typedef struct game{
-    SDL_FRect box;
-    int running;
-    SDL_Event event;
+    unsigned int running : 1; //Ein bit
+    gameState state;
+    struct player* player;
 }game;
 
-void gameLoop(sdlPointer* sdlPointer, game* game);
+void gameLoop(const sdlPointer* sdlPointer, game* game);
 #endif //SONICFAKE_GAME_H

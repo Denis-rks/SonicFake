@@ -1,19 +1,15 @@
 //
 // Created by Denis Frohmüller on 05.11.25.
-//
 
 #include "game.h"
+#include "entities/player.h"
 
-#include "window.h"
+static void eventLoop(game* game);
+static void draw(const sdlPointer* sdlPointer, const game* game);
+static void handleInput(game* game, SDL_Event event);
+static int checkCollision(SDL_FRect box1, SDL_FRect box2);
 
-SDL_FRect gegner = {300,120,70,70};// wird später wieder entferntgi
-
-void eventLoop(game* game);
-void draw(sdlPointer* sdlPointer, game* game);
-void handleInput(game* game);
-int checkCollision(const SDL_FRect* box1, const SDL_FRect* box2);
-
-void gameLoop(sdlPointer* sdlPointer, game* game) {
+void gameLoop(const sdlPointer* sdlPointer, game* game) {
     while (game->running) {
 
         eventLoop(game);
@@ -24,48 +20,56 @@ void gameLoop(sdlPointer* sdlPointer, game* game) {
     }
 }
 
-void eventLoop(game* game) {
-    while (SDL_PollEvent(&game->event)) {
-            switch (game->event.type) {
+static void eventLoop(game* game) {
+
+    SDL_Event event = {0};
+
+    while (SDL_PollEvent(&event)) {
+            switch (event.type) {
                 case SDL_EVENT_QUIT:
                     game->running = 0;
                     break;
                 case SDL_EVENT_KEY_DOWN:
-                    handleInput(game);
+                    handleInput(game, event);
                     break;
                 default:
-                    printf("Unhandled event type: %d\n", game->event.type);
+                    printf("Unhandled event type: %d\n", event.type);
                     break;
             }
         }
 }
 
-void draw(sdlPointer* sdlPointer, game* game) {
+static void draw(const sdlPointer* sdlPointer,const game* game) {
     SDL_SetRenderDrawColor(sdlPointer->renderer, 255, 255, 255, 255);
     SDL_RenderClear(sdlPointer->renderer);
 
-    SDL_SetRenderDrawColor(sdlPointer->renderer, 255, 255, 0, 255);
-    SDL_RenderFillRect(sdlPointer->renderer, &game->box);
+    SDL_SetRenderDrawColor(sdlPointer->renderer, 100, 100, 100, 255);
+    SDL_RenderFillRect(sdlPointer->renderer, &game->player->hitbox);
 
-    SDL_SetRenderDrawColor(sdlPointer->renderer, 0, 255, 255, 255);
-    SDL_RenderFillRect(sdlPointer->renderer, &gegner);
+    /*while (game->entities != NULL) {
+        entity const* ent = *game->entities;
+        SDL_SetRenderDrawColor(sdlPointer->renderer, 255, 255, 0, 255);
+        SDL_RenderFillRect(sdlPointer->renderer, &ent->hitbox);
+        game->entities++;
+    }*/
+
 
     SDL_RenderPresent(sdlPointer->renderer);
 }
 
-void handleInput(game* game) {
+static void handleInput(game* game, SDL_Event event) {
 
-    SDL_FRect testBox = game->box;
+    SDL_FRect testBox = game->player->hitbox;
 
-    switch (game->event.key.scancode) {
+    switch (event.key.scancode) {
         case SDL_SCANCODE_W:
 
             for (int i = 0; i <= 5; i++) {
                 testBox.y -= (float)1;
 
-                if (!checkCollision(&testBox, &gegner)) {
-                    game->box.y = testBox.y;
-                }
+                //if (!checkCollision(&testBox, &gegner)) {
+                    game->player->hitbox.y = testBox.y;
+                //}
             }
             break;
         case SDL_SCANCODE_S:
@@ -73,9 +77,9 @@ void handleInput(game* game) {
             for (int i = 0; i <= 5; i++) {
                 testBox.y += (float)1;
 
-                if (!checkCollision(&testBox, &gegner)) {
-                    game->box.y = testBox.y;
-                }
+                //if (!checkCollision(&testBox, &gegner)) {
+                    game->player->hitbox.y = testBox.y;
+                //}
             }
 
             break;
@@ -84,9 +88,9 @@ void handleInput(game* game) {
             for (int i = 0; i <= 5; i++) {
                 testBox.x -= (float)1;
 
-                if (!checkCollision(&testBox, &gegner)) {
-                game->box.x = testBox.x;
-                }
+                //if (!checkCollision(&testBox, &gegner)) {
+                    game->player->hitbox.x = testBox.x;
+                //}
             }
 
             break;
@@ -94,9 +98,9 @@ void handleInput(game* game) {
             for (int i = 0; i <= 5; i++) {
                 testBox.x += (float)1;
 
-                if (!checkCollision(&testBox, &gegner)) {
-                    game->box.x = testBox.x;
-                }
+                //if (!checkCollision(&testBox, &gegner)) {
+                    game->player->hitbox.x = testBox.x;
+                //}
             }
 
             break;
@@ -105,12 +109,12 @@ void handleInput(game* game) {
     }
 }
 
-int checkCollision(const SDL_FRect* box1, const SDL_FRect* box2) {
+static int checkCollision(SDL_FRect box1, SDL_FRect box2) {
 
-    if (box1->x < box2->x + box2->w
-        && box1->x + box1->w > box2->x
-        && box1->y < box2->y + box2->h
-        && box1->y + box1->h > box2->y) {
+    if (box1.x < box2.x + box2.w
+        && box1.x + box1.w > box2.x
+        && box1.y < box2.y + box2.h
+        && box1.y + box1.h > box2.y) {
         return 1;
     }
 
