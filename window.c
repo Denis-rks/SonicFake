@@ -10,7 +10,7 @@ int gameInitSdl(sdlPointer *sdlPointer) {
         return -1;
     }
 
-    sdlPointer->window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    sdlPointer->window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 
     if (!sdlPointer->window) {
         fprintf(stderr, "Failed to create window %s\n", SDL_GetError());

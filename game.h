@@ -6,18 +6,22 @@
 
 #include "window.h"
 
+#define TILE_SIZE 64
+
 struct player;
 
 typedef enum {
-    MAINMENU,
-    GAMEMENU,
-    SETTINGSMENU
+    TITLE_SCREEN,
+    GAME_SCREEN,
+    SETTINGS_SCREEN
 }gameState;
 
 typedef struct game{
-    unsigned int running : 1; //Ein bit
-    gameState state;
     struct player* player;
+    struct level* level;
+    gameState state;
+    bool running;
+
 }game;
 
 void gameLoop(const sdlPointer* sdlPointer, game* game);

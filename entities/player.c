@@ -2,6 +2,9 @@
 // Created by Denis Frohmüller on 17.11.25.
 //
 #include "player.h"
+
+#include <stdlib.h>
+
 #include "../game.h"
 
 int createPlayer(game* game) {
@@ -16,7 +19,7 @@ int createPlayer(game* game) {
         return false;
     }
 
-    game->player->hitbox = (SDL_FRect){100,1001,100,100};
+    game->player->hitbox = (SDL_FRect){100,100,100,100};
     game->player->health = 100;
 
     return true;

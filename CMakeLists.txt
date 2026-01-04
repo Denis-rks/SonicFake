@@ -7,13 +7,16 @@ set(CMAKE_C_STANDARD 17)
 find_package(SDL3 REQUIRED)
 find_package(SDL3_image REQUIRED)
 
-add_executable(SonicFake main.c
+add_executable(SonicFake
+        main.c
         game.c
         game.h
         window.c
         window.h
         entities/player.h
-        entities/player.c)
+        entities/player.c
+        map.c
+        map.h)
 
 if (CMAKE_C_COMPILER_ID MATCHES "Clang|GNU")
     target_compile_options(SonicFake PRIVATE -Wall -Wextra -Wpedantic -Werror)

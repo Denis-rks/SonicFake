@@ -7,11 +7,16 @@
 
 #include "../window.h"
 
+#define MAXSPEEDX 10
+#define MAXSPEEDY 10
+
 struct game;
 
 typedef struct player {
     SDL_FRect hitbox;
     uint8_t health;
+    short curSpeedX; // spieler soll immer schneller werden deshalb soll seine momentane geschwindigkeit festgehalten werden
+    short curSpeedY;
 }player;
 
 int createPlayer(struct game* game);

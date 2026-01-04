@@ -1,10 +1,10 @@
 #include "window.h"
 #include "game.h"
 #include "entities/player.h"
+#include <stdlib.h>
 
 
 int main(void) {
-
 
     int exitStatus = EXIT_FAILURE;
 
@@ -13,7 +13,7 @@ int main(void) {
 
     if (gameInitSdl(&sdlPointer) == 0) {
         exitStatus = EXIT_SUCCESS;
-        game.running = 1;
+        game.running = true;
     }
 
     if (!createPlayer(&game)) {
